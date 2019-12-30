@@ -32,6 +32,7 @@
     "vuex": "^3.1.1"
   },
   "devDependencies": {
+    "@storybook/vue": "^5.2.8",
     "@types/lodash": "^4.14.132",
     "@vue/cli-plugin-babel": "^4.0.5",
     "@vue/cli-plugin-e2e-cypress": "^4.0.5",

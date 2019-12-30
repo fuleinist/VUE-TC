@@ -8,8 +8,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import ProductList from '@/components/ProductList'
-import AddProduct from '@/components/AddProduct'
+import ProductList from '@/components/products/ProductList'
+import AddProduct from '@/components/products/AddProduct'
 
 export default {
   components: { ProductList, AddProduct },

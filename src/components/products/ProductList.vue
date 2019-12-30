@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import ProductItem from '@/components/ProductItem'
+import ProductItem from '@/components/products/ProductItem'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {

@@ -49,14 +49,27 @@ const router = new Router({
       path: '/products',
       name: 'products',
       component: () =>
-        import(/* webpackChunkName: "client-chunk-products" */ '@/views/Products.vue')
+        import(/* webpackChunkName: "client-chunk-products" */ '@/views/products/Products.vue')
     },
     {
-      path: '/products/:id',
+      path: '/product/:id',
       name: 'product',
       props: true,
       component: () =>
-        import(/* webpackChunkName: "client-chunk-product-details" */ '@/views/Product.vue')
+        import(/* webpackChunkName: "client-chunk-product-details" */ '@/views/products/Product.vue')
+    },
+    {
+      path: '/jobs',
+      name: 'jobs',
+      component: () =>
+        import(/* webpackChunkName: "client-chunk-jobs" */ '@/views/jobs/Jobs.vue')
+    },
+    {
+      path: '/job/:id',
+      name: 'job',
+      props: true,
+      component: () =>
+        import(/* webpackChunkName: "client-chunk-job-details" */ '@/views/jobs/Job.vue')
     },
     { path: '*', redirect: '/home' }
   ]

@@ -1,6 +1,8 @@
 <template>
   <div class="product-detail">
     <h1>{{ product.name }}</h1>
+    <h2>Category: {{ product.category }}</h2>
+    <h2>Total: {{ product.count }}</h2>
   </div>
 </template>
 
