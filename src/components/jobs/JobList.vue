@@ -4,6 +4,9 @@
     <p v-if="jobs && !jobs.length" class="infos-label">
       You don't have any job yet
     </p>
+    <router-link class="add-btn" :to="{ name: 'jobadd' }">
+      {{ 'Create New Job' }}
+    </router-link>
     <job-item
       v-for="(job, index) in jobs"
       :key="job.id"
@@ -46,5 +49,16 @@ export default {
   max-width: 500px;
   margin: 10px auto;
   justify-content: space-between;
+}
+
+.add-btn {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid;
+  display: inline-block;
+  border-radius: 3px;
+  margin-left: 10px;
+  color: $vue-color;
+  border-color: $vue-color;
 }
 </style>

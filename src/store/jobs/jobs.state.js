@@ -1,8 +1,6 @@
 export default {
   jobs: null,
-  jobNameToCreate: '',
-  jobCategoryToCreate: '',
-  jobCountToCreate: 0,
+  jobToCreate: {},
   jobDeletionPending: [],
   jobCreationPending: false
 }

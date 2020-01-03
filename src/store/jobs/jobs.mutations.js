@@ -1,14 +1,18 @@
 export default {
   /* Job input name */
-  setJobNameToCreate: (state, jobNameToCreate) =>
-    (state.jobNameToCreate = jobNameToCreate),
-  /* Job input category */
-  setJobCategoryToCreate: (state, jobCategoryToCreate) =>
-    (state.jobCategoryToCreate = jobCategoryToCreate),
+  // setJobNameToCreate: (state, jobNameToCreate) =>
+  //   (state.jobToCreate.name = jobNameToCreate),
+  // /* Job input category */
+  // setJobCategoryToCreate: (state, jobCategoryToCreate) =>
+  //   (state.jobToCreate = jobCategoryToCreate),
 
-  /* Job input category */
-  setJobCountToCreate: (state, jobCountToCreate) =>
-    (state.jobCountToCreate = jobCountToCreate),
+  // /* Job input category */
+  // setJobCountToCreate: (state, jobCountToCreate) =>
+  //   (state.jobCountToCreate = jobCountToCreate),
+  /* Job input */
+  setJobToCreate: (state, { label, value }) => {
+    return label && value ? (state.jobToCreate[label] = value) : state
+  },
   /* Jobs */
   setJobs: (state, jobs) => (state.jobs = jobs),
   addJob: (state, job) => state.jobs.push(job),

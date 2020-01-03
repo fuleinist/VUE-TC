@@ -1,6 +1,6 @@
 <template>
   <div class="page-wrapper">
-    <job-detail v-if="currentJob" :job="currentJob"></job-detail>
+    <job-detail v-if="currentJob" :job="currentJobArray"></job-detail>
   </div>
 </template>
 
@@ -17,8 +17,12 @@ export default {
   },
   computed: {
     ...mapGetters('jobs', ['getJobById']),
+    ...mapGetters('jobs', ['getJobArrayById']),
     currentJob() {
       return this.getJobById(this.id)
+    },
+    currentJobArray() {
+      return this.getJobArrayById(this.id)
     }
   }
 }

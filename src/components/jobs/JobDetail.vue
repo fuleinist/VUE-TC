@@ -1,15 +1,15 @@
 <template>
   <div class="job-detail">
-    <h1>{{ job.name }}</h1>
-    <h2>Category: {{ job.category }}</h2>
-    <h2>Total: {{ job.count }}</h2>
+    <div v-for="jobvar in job" :key="jobvar.id">
+      <b>{{ jobvar.label }}:</b> {{ jobvar.value }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    job: Object
+    job: Array
   }
 }
 </script>

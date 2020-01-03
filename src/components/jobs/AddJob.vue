@@ -1,25 +1,19 @@
 <template>
   <div class="job-action-bar">
     <input
-      placeholder="job name..."
+      v-for="(input, index) in inputs"
+      :key="index"
+      :placeholder="input.name"
       class="job-input"
+      :name="input.name"
       type="text"
-      :value="jobNameToCreate"
-      @input="setJobNameToCreate($event.target.value)"
-    />
-    <input
-      placeholder="job catalog..."
-      class="job-input"
-      type="text"
-      :value="jobCategoryToCreate"
-      @input="setJobCategoryToCreate($event.target.value)"
-    />
-    <input
-      placeholder="job count..."
-      class="job-input"
-      type="number"
-      :value="jobCountToCreate"
-      @input="setJobCountToCreate($event.target.value)"
+      :value="jobToCreate ? jobToCreate[input.name] : null"
+      @input="
+        setJobToCreate({
+          label: $event.target.name,
+          value: $event.target.value
+        })
+      "
     />
     <div
       :class="{ disabled: jobCreationPending }"
@@ -35,16 +29,63 @@
 import { mapMutations, mapState, mapActions } from 'vuex'
 
 export default {
-  computed: mapState('jobs', [
-    'jobNameToCreate',
-    'jobCategoryToCreate',
-    'jobCountToCreate',
-    'jobCreationPending'
-  ]),
+  data() {
+    return {
+      inputs: [
+        { name: 'firstname' },
+        { name: 'surname' },
+        { name: 'Phone' },
+        { name: 'Email' },
+        { name: 'BuilderName' },
+        { name: 'BuilderEmail' },
+        { name: 'BuilderPhone' },
+        { name: 'projectDetails' },
+        { name: 'projectAddress' },
+        { name: 'projectSuburb' },
+        { name: 'projectPostcode' },
+        { name: 'nodes' },
+        { name: 'quotedAmount' },
+        { name: 'quotedRequestDate' },
+        { name: 'quotedSubmissionDate' },
+        { name: 'refferedBy' },
+        { name: 'budgetedMaterialCost' },
+        { name: 'budgetedFactoryHours' },
+        { name: 'budgetedSiteHours' },
+        { name: 'budgetedOtherHours' },
+        { name: 'totalBudgetedCost' },
+        { name: 'budgetedOtherHours' },
+        { name: 'actualCostMaterials' },
+        { name: 'totalInvoiceAmount' }
+      ]
+      //   {
+      //   firstname: state.jobToCreate.FirstName,
+      //   surname: state.jobToCreate.SurName,
+      //   phone: state.jobToCreate.Phone,
+      //   email: state.jobToCreate.Email,
+      //   builderName: state.jobToCreate.BuilderName,
+      //   builderEmail: state.jobToCreate.BuilderEmail,
+      //   builderPhone: state.jobToCreate.BuilderPhone,
+      //   projectDetails: state.jobToCreate.projectDetails,
+      //   projectAddress: state.jobToCreate.projectAddress,
+      //   projectSuburb: state.jobToCreate.projectSuburb,
+      //   projectPostcode: state.jobToCreate.projectPostcode,
+      //   notes: state.jobToCreate.nodes,
+      //   quotedAmount: state.jobToCreate.quotedAmount,
+      //   quotedRequestDate: state.jobToCreate.quotedRequestDate,
+      //   quotedSubmissionDate: state.jobToCreate.quotedSubmissionDate,
+      //   refferedBy: state.jobToCreate.refferedBy,
+      //   budgetedMaterialCost: state.jobToCreate.budgetedMaterialCost,
+      //   budgetedFactoryHours: state.jobToCreate.budgetedFactoryHours,
+      //   budgetedSiteHours: state.jobToCreate.budgetedSiteHours,
+      //   budgetedotherHours: state.jobToCreate.budgetedotherHours,
+      //   totalBudgetedCost: state.jobToCreate.totalBudgetedCost,
+      //   actualCostMaterials: state.jobToCreate.actualCostMaterials,
+      //   totalInvoiceAmount: state.jobToCreate.totalInvoiceAmount
+    }
+  },
+  computed: mapState('jobs', ['jobToCreate', 'jobCreationPending']),
   methods: {
-    ...mapMutations('jobs', ['setJobNameToCreate']),
-    ...mapMutations('jobs', ['setJobCategoryToCreate']),
-    ...mapMutations('jobs', ['setJobCountToCreate']),
+    ...mapMutations('jobs', ['setJobToCreate']),
     ...mapActions('jobs', ['triggerAddJobAction'])
   }
 }
@@ -55,10 +96,15 @@ export default {
 
 .job-action-bar {
   display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: center;
+  align-content: space-between;
+  justify-content: space-between;
 
   .job-input {
+    flex: 1;
     padding-left: 5px;
     height: 30px;
     width: 150px;
