@@ -8,6 +8,7 @@
       :name="input.name"
       type="text"
       :value="jobToCreate ? jobToCreate[input.name] : null"
+      :style="createStyle(input.style)"
       @input="
         setJobToCreate({
           label: $event.target.name,
@@ -32,31 +33,33 @@ export default {
   data() {
     return {
       inputs: [
-        { name: 'firstname' },
-        { name: 'surname' },
+        { name: 'Name', style: { flex: '1 100%' } },
+        { name: 'Firstname' },
+        { name: 'Surname' },
         { name: 'Phone' },
         { name: 'Email' },
         { name: 'BuilderName' },
         { name: 'BuilderEmail' },
         { name: 'BuilderPhone' },
-        { name: 'projectDetails' },
-        { name: 'projectAddress' },
-        { name: 'projectSuburb' },
-        { name: 'projectPostcode' },
-        { name: 'nodes' },
-        { name: 'quotedAmount' },
-        { name: 'quotedRequestDate' },
-        { name: 'quotedSubmissionDate' },
-        { name: 'refferedBy' },
-        { name: 'budgetedMaterialCost' },
-        { name: 'budgetedFactoryHours' },
-        { name: 'budgetedSiteHours' },
-        { name: 'budgetedOtherHours' },
-        { name: 'totalBudgetedCost' },
-        { name: 'budgetedOtherHours' },
-        { name: 'actualCostMaterials' },
-        { name: 'totalInvoiceAmount' }
-      ]
+        { name: 'ProjectDetails' },
+        { name: 'ProjectAddress' },
+        { name: 'ProjectSuburb' },
+        { name: 'ProjectPostcode' },
+        { name: 'Nodes', style: { flex: '1 100%', height: '50px' } },
+        { name: 'QuotedAmount' },
+        { name: 'QuotedRequestDate' },
+        { name: 'QuotedSubmissionDate' },
+        { name: 'RefferedBy' },
+        { name: 'BudgetedMaterialCost' },
+        { name: 'BudgetedFactoryHours' },
+        { name: 'BudgetedSiteHours' },
+        { name: 'BudgetedOtherHours' },
+        { name: 'TotalBudgetedCost' },
+        { name: 'BudgetedOtherHours' },
+        { name: 'ActualCostMaterials' },
+        { name: 'TotalInvoiceAmount' }
+      ],
+      createStyle: style => style
       //   {
       //   firstname: state.jobToCreate.FirstName,
       //   surname: state.jobToCreate.SurName,
@@ -105,6 +108,7 @@ export default {
 
   .job-input {
     flex: 1;
+    margin: 5px;
     padding-left: 5px;
     height: 30px;
     width: 150px;
