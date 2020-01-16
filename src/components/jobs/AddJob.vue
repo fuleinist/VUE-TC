@@ -16,12 +16,22 @@
         })
       "
     />
-    <div
-      :class="{ disabled: jobCreationPending }"
-      class="create-job-btn"
-      @click="triggerAddJobAction"
-    >
-      add job
+    <div class="job-buttons">
+      <br />
+      <div
+        :class="{ disabled: jobCreationPending }"
+        class="create-job-btn"
+        @click="triggerAddJobAction"
+      >
+        Add Job
+      </div>
+      <div
+        :class="{ disabled: jobCreationPending }"
+        class="create-job-btn"
+        @click="clearJobToCreate(jobToCreate)"
+      >
+        Clear
+      </div>
     </div>
   </div>
 </template>
@@ -88,7 +98,7 @@ export default {
   },
   computed: mapState('jobs', ['jobToCreate', 'jobCreationPending']),
   methods: {
-    ...mapMutations('jobs', ['setJobToCreate']),
+    ...mapMutations('jobs', ['setJobToCreate', 'clearJobToCreate']),
     ...mapActions('jobs', ['triggerAddJobAction'])
   }
 }
@@ -117,6 +127,10 @@ export default {
     border: 1px solid;
     border-color: #2c3e50;
     border-radius: 3px;
+  }
+
+  .job-buttons {
+    flex: 1 100%;
   }
 
   .create-job-btn {

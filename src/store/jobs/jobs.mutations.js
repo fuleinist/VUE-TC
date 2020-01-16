@@ -13,6 +13,9 @@ export default {
   setJobToCreate: (state, { label, value }) => {
     return label && value ? (state.jobToCreate[label] = value) : state
   },
+  clearJobToCreate: state => {
+    state.jobToCreate = {}
+  },
   /* Jobs */
   setJobs: (state, jobs) => (state.jobs = jobs),
   addJob: (state, job) => state.jobs.push(job),

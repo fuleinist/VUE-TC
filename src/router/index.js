@@ -77,6 +77,13 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "client-chunk-job-details" */ '@/views/jobs/Job.vue')
     },
+    {
+      path: '/logs/:date',
+      name: 'logsadd',
+      props: true,
+      component: () =>
+        import(/* webpackChunkName: "client-chunk-job-details" */ '@/views/logs/AddLog.vue')
+    },
     { path: '*', redirect: '/home' }
   ]
 })
