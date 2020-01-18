@@ -70,7 +70,6 @@ export default class GenericDB {
   async readAll(constraints = null) {
     const collectionRef = (await firestore()).collection(this.collectionPath)
     let query = collectionRef
-
     if (constraints) {
       constraints.forEach(constraint => {
         query = query.where(...constraint)
@@ -96,10 +95,13 @@ export default class GenericDB {
   async readWhere(constraints) {
     const collectionRef = (await firestore()).collection(this.collectionPath)
     let query = collectionRef
-
+    console.log(constraints)
     if (constraints) {
       constraints.forEach(constraint => {
-        query = query.where(...constraint)
+        console.log(constraint)
+        const { a, b, c } = constraint
+        // query = query.where(...constraint)
+        query = query.where(a, b, c)
       })
     } else {
       throw new Error('Missing Constraints, check readWhere function')

@@ -17,9 +17,10 @@ export default {
    */
   getLogsByDateNUser: async ({ commit, rootState }, date) => {
     const logsDb = new LogsDB()
+
     const logs = await logsDb.readWhere([
-      ('date', '==', date),
-      ('userId', '==', rootState.authentication.user.id)
+      { a: `date`, b: `==`, c: date },
+      { a: `userId`, b: `==`, c: rootState.authentication.user.id }
     ])
     commit('setLogs', logs)
   },

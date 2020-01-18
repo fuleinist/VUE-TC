@@ -1,7 +1,6 @@
 <template>
   <div>
-    <p>{{ date }}</p>
-    <p>{{ currentLogs }}</p>
+    <h2>{{ date() }}</h2>
     <p v-if="logs === null" class="infos-label">Loading...</p>
     <p v-if="logs && !logs.length" class="infos-label">
       You don't have any log yet
@@ -12,23 +11,23 @@
 
 <script>
 import DayCalendar from '@/ui/Calendar/Calendar.ui'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
+
+import store from '@/store'
 
 export default {
   components: { DayCalendar },
   computed: {
     ...mapGetters('logs', ['isLogDeletionPending']),
     ...mapState('logs', ['logs', 'logCreationPending']),
-    ...mapState('app', ['networkOnLine']),
-    date() {
-      return this.$route.params.date
-    }
+    ...mapState('app', ['networkOnLine'])
+  },
+  mounted() {
+    store.dispatch(`logs/getLogsByDateNUser`, this.$route.params.date)
   },
   methods: {
-    ...mapActions('logs', ['deleteLog']),
-    currentLogs() {
-      console.log(this)
-      return this.getLogsByDate(this.date)
+    date() {
+      return this.$route.params.date
     }
   }
 }
