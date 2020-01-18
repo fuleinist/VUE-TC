@@ -1,12 +1,34 @@
 import JobsDB from '@/firebase/jobs-db'
+import { firstDateOfYear, lastDateOfYear } from '@/support/date.support'
 
 export default {
   /**
-   * Fetch jobs of current loggedin user
+   * Fetch all jobs
    */
-  getJobs: async ({ rootState, commit }) => {
-    const jobsDb = new JobsDB(rootState.authentication.user.id)
+  getJobs: async ({ commit }) => {
+    const jobsDb = new JobsDB()
     const jobs = await jobsDb.readAll()
+    commit('setJobs', jobs)
+  },
+
+  /**
+   * Fetch all jobs created after a date
+   */
+  getJobsAfterDate: async ({ commit }, date) => {
+    const jobsDb = new JobsDB()
+    const jobs = await jobsDb.readWhere([('createTimestamp', '>=', date)])
+    commit('setJobs', jobs)
+  },
+
+  /**
+   * Fetch all jobs created after a date
+   */
+  getJobsbyYear: async ({ commit }, year) => {
+    const jobsDb = new JobsDB()
+    const jobs = await jobsDb.readWhere([
+      ('createTimestamp', '>=', firstDateOfYear(year)),
+      ('createTimestamp', '>=', lastDateOfYear(year))
+    ])
     commit('setJobs', jobs)
   },
 

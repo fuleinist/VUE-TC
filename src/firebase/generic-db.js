@@ -10,6 +10,7 @@ export default class GenericDB {
 
   /**
    * Create a document in the collection
+   * @async
    * @param data
    * @param id
    */
@@ -44,6 +45,7 @@ export default class GenericDB {
 
   /**
    * Read a document in the collection
+   * @async
    * @param id
    */
   async read(id) {
@@ -62,6 +64,7 @@ export default class GenericDB {
 
   /**
    * Read all documents in the collection following constraints
+   * @async
    * @param constraints
    */
   async readAll(constraints = null) {
@@ -84,9 +87,38 @@ export default class GenericDB {
 
     return query.get().then(formatResult)
   }
+  /**
+   * Read documents in the collection following constraints with Where Condition
+   * @async
+   * @param constraints Array of where constrains
+   */
+
+  async readWhere(constraints) {
+    const collectionRef = (await firestore()).collection(this.collectionPath)
+    let query = collectionRef
+
+    if (constraints) {
+      constraints.forEach(constraint => {
+        query = query.where(...constraint)
+      })
+    } else {
+      throw new Error('Missing Constraints, check readWhere function')
+    }
+
+    const formatResult = result =>
+      result.docs.map(ref =>
+        this.convertObjectTimestampPropertiesToDate({
+          id: ref.id,
+          ...ref.data()
+        })
+      )
+
+    return query.get().then(formatResult)
+  }
 
   /**
    * Update a document in the collection
+   * @async
    * @param data
    */
   async update(data) {
@@ -107,6 +139,7 @@ export default class GenericDB {
 
   /**
    * Delete a document in the collection
+   * @async
    * @param id
    */
   async delete(id) {
@@ -118,6 +151,7 @@ export default class GenericDB {
 
   /**
    * Convert all object Timestamp properties to date
+   * @async
    * @param obj
    */
   convertObjectTimestampPropertiesToDate(obj) {

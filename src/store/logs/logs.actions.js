@@ -1,29 +1,56 @@
-import JobLogsDB from '@/firebase/job-logs-db'
+import LogsDB from '@/firebase/logs-db'
 
 export default {
   /**
-   * Fetch logs of current job
+   * Fetch all logs
+   * @async
    */
-  getJobLogs: async ({ commit, job }) => {
-    const jobLogsDb = new JobLogsDB(job.id)
-    const logs = await jobLogsDb.readAll()
+  getLogs: async ({ commit }) => {
+    const logsDb = new LogsDB()
+    const logs = await logsDb.readAll()
+    commit('setLogs', logs)
+  },
+
+  /**
+   * Fetch logs by date and user
+   * @async
+   */
+  getLogsByDateNUser: async ({ commit, rootState }, date) => {
+    const logsDb = new LogsDB()
+    const logs = await logsDb.readWhere([
+      ('date', '==', date),
+      ('userId', '==', rootState.authentication.user.id)
+    ])
+    commit('setLogs', logs)
+  },
+
+  /**
+   * Fetch logs by job
+   * @async
+   */
+  getLogsByJob: async ({ commit }, job) => {
+    const logsDb = new LogsDB()
+    const logs = await logsDb.readWhere([('jobId', '==', job.id)])
     commit('setLogs', logs)
   },
 
   /**
    * Create a log for current job
+   * @async
    */
-  createJobLog: async ({ commit, rootState, job }, log) => {
-    const jobLogsDb = new JobLogsDB(job.id)
+  createLog: async ({ commit, rootState }, { job, log }) => {
+    const logsDb = new LogsDB()
+    log.jobId = job.id
     log.userId = rootState.authentication.user.id
     commit('setLogCreationPending', true)
-    const createdJobLog = await jobLogsDb.create(log)
+    const createdJobLog = await logsDb.create(log)
     commit('addLog', createdJobLog)
     commit('setLogCreationPending', false)
   },
 
   /**
    * Create a new log for current job and reset log inputs
+   * @async
    */
   triggerAddLogAction: ({ dispatch, state, commit }) => {
     if (state.logNameToCreate === '') return
@@ -34,14 +61,15 @@ export default {
 
   /**
    * Delete a job log from its id
+   * @async
    */
-  deleteJobLog: async ({ job, commit, getters }, logId) => {
+  deleteJobLog: async ({ commit, getters }, logId) => {
     if (getters.islogDeletionPending(logId)) return
 
-    const jobLogsDb = new JobLogsDB(job.id)
+    const logsDb = new LogsDB()
 
     commit('addlogDeletionPending', logId)
-    await jobLogsDb.delete(logId)
+    await logsDb.delete(logId)
     commit('removelogById', logId)
     commit('removelogDeletionPending', logId)
   }

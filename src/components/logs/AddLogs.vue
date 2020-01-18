@@ -18,17 +18,19 @@ export default {
   components: { DayCalendar },
   computed: {
     ...mapGetters('logs', ['isLogDeletionPending']),
-    ...mapState('logs', ['getLogsByDate']),
+    ...mapState('logs', ['logs', 'logCreationPending']),
     ...mapState('app', ['networkOnLine']),
     date() {
       return this.$route.params.date
-    },
+    }
+  },
+  methods: {
+    ...mapActions('logs', ['deleteLog']),
     currentLogs() {
       console.log(this)
       return this.getLogsByDate(this.date)
     }
-  },
-  methods: mapActions('logs', ['deleteLog'])
+  }
 }
 </script>
 
