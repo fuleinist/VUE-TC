@@ -2,10 +2,10 @@
   <v-row>
     <v-col>
       <v-sheet height="400">
-        <v-calendar color="primary" type="day">
-          <template v-slot:day-header="{ present }">
+        <v-calendar color="primary" type="day" :start="getdate()">
+          <template v-slot:day-header="present">
             <template v-if="present" class="text-center">
-              Today
+              {{ getdate ? getdate() : `Today` }}
             </template>
           </template>
 
@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  props: { getdate: Function },
   data: () => ({})
 }
 </script>

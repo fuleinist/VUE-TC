@@ -1,22 +1,23 @@
 <template>
   <div>
-    <h2>{{ date() }}</h2>
     <p v-if="logs === null" class="infos-label">Loading...</p>
     <p v-if="logs && !logs.length" class="infos-label">
       You don't have any log yet
     </p>
-    <DayCalendar />
+    <p><DateSelector /></p>
+    <DayCalendar :getdate="getdate" />
   </div>
 </template>
 
 <script>
 import DayCalendar from '@/ui/Calendar/Calendar.ui'
+import DateSelector from '@/ui/DateSelector/DateSelector.ui'
 import { mapState, mapGetters } from 'vuex'
 
 import store from '@/store'
 
 export default {
-  components: { DayCalendar },
+  components: { DayCalendar, DateSelector },
   computed: {
     ...mapGetters('logs', ['isLogDeletionPending']),
     ...mapState('logs', ['logs', 'logCreationPending']),
@@ -26,7 +27,7 @@ export default {
     store.dispatch(`logs/getLogsByDateNUser`, this.$route.params.date)
   },
   methods: {
-    date() {
+    getdate() {
       return this.$route.params.date
     }
   }
