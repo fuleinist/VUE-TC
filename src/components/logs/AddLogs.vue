@@ -4,7 +4,7 @@
     <p v-if="logs && !logs.length" class="infos-label">
       You don't have any log yet
     </p>
-    <p><DateSelector /></p>
+    <p><DateSelector :getdate="getdate" :setdate="setdate" /></p>
     <DayCalendar :getdate="getdate" />
   </div>
 </template>
@@ -29,6 +29,9 @@ export default {
   methods: {
     getdate() {
       return this.$route.params.date
+    },
+    setdate(date) {
+      this.$router.push({ name: 'logsadd', params: { date } })
     }
   }
 }
