@@ -17,7 +17,6 @@ export default {
    */
   getLogsByDateNUser: async ({ commit, rootState }, date) => {
     const logsDb = new LogsDB()
-
     const logs = await logsDb.readWhere([
       { a: `date`, b: `==`, c: date },
       { a: `userId`, b: `==`, c: rootState.authentication.user.id }
@@ -41,6 +40,7 @@ export default {
    */
   createLog: async ({ commit, rootState }, { job, log }) => {
     const logsDb = new LogsDB()
+    // assign jobId and userId accordingly
     log.jobId = job.id
     log.userId = rootState.authentication.user.id
     commit('setLogCreationPending', true)

@@ -5,7 +5,7 @@
       You don't have any log yet
     </p>
     <p><DateSelector :getdate="getdate" :setdate="setdate" /></p>
-    <DayCalendar :getdate="getdate" />
+    <DayCalendar :getdate="getdate" :styleinterval="'workday'" />
   </div>
 </template>
 
