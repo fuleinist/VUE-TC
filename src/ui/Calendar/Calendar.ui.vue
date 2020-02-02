@@ -13,33 +13,10 @@
           <template v-slot:interval="{ hour }">
             <div
               style="height: inherit; width: inherit;"
-              @click="openLogForm(hour)"
-              @click.stop="dialog = true"
+              @click.stop="slotClick(hour)"
             ></div>
           </template>
         </v-calendar>
-        <v-dialog
-          ref="dialog"
-          v-model="dialog"
-          :return-value.sync="hour"
-          width="290px"
-        >
-          <v-card>
-            <v-card-title class="headline">Create Log</v-card-title>
-            <!-- <v-card-text> start: {{ hour }} </v-card-text>
-            <v-card-text> end: {{ hour + 1 }} </v-card-text> -->
-            <Form :inputs="inputs" :data="{ Start: hour, End: hour + 1 }" />
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="green darken-1" text @click="dialog = false">
-                Cancel
-              </v-btn>
-              <v-btn color="green darken-1" text @click="dialog = false">
-                Submit
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-sheet>
     </v-col>
   </v-row>
@@ -47,8 +24,6 @@
 
 <script>
 /* eslint-disable no-nested-ternary */
-import Form from '@/ui/Form/Form.ui'
-
 const stylings = {
   default() {
     return undefined
@@ -84,7 +59,6 @@ const stylings = {
   }
 }
 export default {
-  components: { Form },
   props: {
     inputs: Array,
     workday: {
@@ -97,13 +71,8 @@ export default {
       }
     },
     styleInterval: String,
-    getDate: Function
-  },
-  data() {
-    return {
-      hour: '',
-      dialog: false
-    }
+    getDate: Function,
+    slotClick: Function
   },
   computed: {
     intervalStyle() {
@@ -111,14 +80,6 @@ export default {
     }
   },
   methods: {
-    openLogForm(hour) {
-      console.log({ this: this, hour })
-      // `event` is the native DOM event
-      if (hour) {
-        this.hour = hour
-        this.dialog = true
-      }
-    },
     showIntervalLabel(interval) {
       return interval.minute === 0
     }

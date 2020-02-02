@@ -8,33 +8,63 @@
     <DayCalendar
       :inputs="inputs"
       :get-date="getdate"
+      :slot-click="slotclick"
       :style-interval="'workday'"
     />
+    <v-dialog
+      ref="dialog"
+      v-model="dialog"
+      :return-value.sync="hour"
+      width="290px"
+    >
+      <v-card>
+        <v-card-title class="headline">Create Log</v-card-title>
+        <!-- <v-card-text> start: {{ hour }} </v-card-text>
+            <v-card-text> end: {{ hour + 1 }} </v-card-text> -->
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <Form
+            :inputs="inputs"
+            :data="{ Start: hour, End: hour + 1 }"
+            :item="logToCreate"
+            :update="update"
+            :pending="logCreationPending"
+            :submit="submit"
+            :cancel="cancel"
+          />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import Form from '@/ui/Form/Form.ui'
 import DayCalendar from '@/ui/Calendar/Calendar.ui'
 import DateSelector from '@/ui/DateSelector/DateSelector.ui'
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 import store from '@/store'
 
 export default {
-  components: { DayCalendar, DateSelector },
+  components: { DayCalendar, DateSelector, Form },
   data() {
     return {
       inputs: [
-        { name: 'Job', style: { flex: '1 100%' } },
+        { name: 'Job', autocomplete: this.jobs, style: { flex: '1 100%' } },
         { name: 'Start' },
         { name: 'End' },
         { name: 'Note', style: { flex: '1 100%', height: '50px' } }
-      ]
+      ],
+      dialog: false,
+      hour: ''
     }
   },
   computed: {
-    ...mapGetters('logs', ['isLogDeletionPending']),
-    ...mapState('logs', ['logs', 'logCreationPending']),
+    ...mapState('jobs', ['jobs']),
+    ...mapState('logs', ['logs', 'logToCreate', 'logCreationPending']),
+    ...mapMutations('logs', ['setLogToCreate']),
+    ...mapActions('logs', ['triggerAddLogAction']),
     ...mapState('app', ['networkOnLine'])
   },
   mounted() {
@@ -46,6 +76,23 @@ export default {
     },
     setdate(date) {
       this.$router.push({ name: 'logsadd', params: { date } })
+    },
+    slotclick(hour) {
+      // `event` is the native DOM event
+      if (hour) {
+        this.hour = hour
+        this.dialog = true
+      }
+      console.log({ this: this, dialog: this.dialog })
+    },
+    submit() {
+      this.triggerAddLogAction()
+    },
+    update(data) {
+      this.triggerAddLogAction(data)
+    },
+    cancel() {
+      this.dialog = false
     }
   }
 }

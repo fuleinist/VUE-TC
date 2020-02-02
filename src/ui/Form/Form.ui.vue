@@ -7,12 +7,10 @@
       class="input"
       :name="input.name"
       type="text"
-      :value="
-        itemToCreate ? itemToCreate[input.name] : data ? data[input.name] : null
-      "
+      :value="item ? item[input.name] : data ? data[input.name] : null"
       :style="createStyle(input.style)"
       @input="
-        setItemToCreate({
+        update({
           label: $event.target.name,
           value: $event.target.value
         })
@@ -20,20 +18,24 @@
     />
     <div class="buttons">
       <br />
-      <div
-        :class="{ disabled: itemCreationPending }"
+      <v-btn
+        color="green"
+        outlined
+        :class="{ disabled: pending }"
         class="create-btn"
-        @click="triggerAddItemAction"
+        @click="submit(item)"
       >
         Add Item
-      </div>
-      <div
-        :class="{ disabled: itemCreationPending }"
+      </v-btn>
+      <v-btn
+        color="green"
+        outlined
+        :class="{ disabled: pending }"
         class="create-btn"
-        @click="clearItemToCreate(itemToCreate)"
+        @click="cancel(item)"
       >
         Clear
-      </div>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -51,23 +53,17 @@ export default {
       }
     },
     data: Object,
-    itemToCreate: Object,
-    itemCreationPending: Boolean,
-    setItemToCreate: Function,
-    clearItemToCreate: Function,
-    triggerAddItemAction: Function
+    item: Object,
+    pending: Boolean,
+    update: Function,
+    submit: Function,
+    cancel: Function
   },
   data() {
-    console.log(this.data)
     return {
       createStyle: style => style
     }
   }
-  // computed: mapState('items', ['itemToCreate', 'itemCreationPending']),
-  // methods: {
-  //   ...mapMutations('items', ['setItemToCreate', 'clearItemToCreate']),
-  //   ...mapActions('items', ['triggerAddItemAction'])
-  // }
 }
 </script>
 

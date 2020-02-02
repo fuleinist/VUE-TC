@@ -39,13 +39,14 @@ export default {
    * @async
    */
   createLog: async ({ commit, rootState }, { job, log }) => {
+    console.log({ commit, rootState, job, log })
     const logsDb = new LogsDB()
     // assign jobId and userId accordingly
-    log.jobId = job.id
+    log.jobId = job ? job.id : ''
     log.userId = rootState.authentication.user.id
     commit('setLogCreationPending', true)
-    const createdJobLog = await logsDb.create(log)
-    commit('addLog', createdJobLog)
+    const createdLog = await logsDb.create(log)
+    commit('addLog', createdLog)
     commit('setLogCreationPending', false)
   },
 
