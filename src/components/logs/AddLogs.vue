@@ -5,7 +5,11 @@
       You don't have any log yet
     </p>
     <p><DateSelector :getdate="getdate" :setdate="setdate" /></p>
-    <DayCalendar :getdate="getdate" :styleinterval="'workday'" />
+    <DayCalendar
+      :inputs="inputs"
+      :get-date="getdate"
+      :style-interval="'workday'"
+    />
   </div>
 </template>
 
@@ -18,6 +22,16 @@ import store from '@/store'
 
 export default {
   components: { DayCalendar, DateSelector },
+  data() {
+    return {
+      inputs: [
+        { name: 'Job', style: { flex: '1 100%' } },
+        { name: 'Start' },
+        { name: 'End' },
+        { name: 'Note', style: { flex: '1 100%', height: '50px' } }
+      ]
+    }
+  },
   computed: {
     ...mapGetters('logs', ['isLogDeletionPending']),
     ...mapState('logs', ['logs', 'logCreationPending']),

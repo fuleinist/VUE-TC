@@ -5,16 +5,15 @@
         <v-calendar
           color="primary"
           type="day"
-          :start="getdate()"
-          :first-interval="4"
-          :interval-count="16"
+          :start="getDate()"
+          :first-interval="workday.day.start"
+          :interval-count="workday.day.end - workday.day.start"
           :interval-style="intervalStyle"
-          :show-interval-label="showIntervalLabel"
         >
           <template v-slot:interval="{ hour }">
             <div
               style="height: inherit; width: inherit;"
-              @click="openLogForm"
+              @click="openLogForm(hour)"
               @click.stop="dialog = true"
             ></div>
           </template>
@@ -27,10 +26,9 @@
         >
           <v-card>
             <v-card-title class="headline">Create Log</v-card-title>
-            <v-card-text>
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </v-card-text>
+            <!-- <v-card-text> start: {{ hour }} </v-card-text>
+            <v-card-text> end: {{ hour + 1 }} </v-card-text> -->
+            <Form :inputs="inputs" :data="{ Start: hour, End: hour + 1 }" />
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="green darken-1" text @click="dialog = false">
@@ -49,16 +47,18 @@
 
 <script>
 /* eslint-disable no-nested-ternary */
+import Form from '@/ui/Form/Form.ui'
+
 const stylings = {
   default() {
     return undefined
   },
   workday(interval) {
     const inactive =
-      interval.weekday === 0 ||
-      interval.weekday === 6 ||
-      interval.hour < 5 ||
-      interval.hour >= 19
+      interval.weekday === this.workday.week.weekend[0] ||
+      interval.weekday === this.workday.week.weekend[1] ||
+      interval.hour < this.workday.day.start ||
+      interval.hour >= this.workday.day.end
     const startOfHour = interval.minute === 0
     const { dark } = this
     const mid = dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
@@ -84,10 +84,20 @@ const stylings = {
   }
 }
 export default {
+  components: { Form },
   props: {
-    styleinterval: String,
-    showintervallabel: String,
-    getdate: Function
+    inputs: Array,
+    workday: {
+      type: Object,
+      default() {
+        return {
+          week: { start: 1, end: 5, weekend: [0, 6] },
+          day: { start: 5, end: 19 }
+        }
+      }
+    },
+    styleInterval: String,
+    getDate: Function
   },
   data() {
     return {
@@ -97,15 +107,15 @@ export default {
   },
   computed: {
     intervalStyle() {
-      return stylings[this.styleinterval].bind(this)
+      return stylings[this.styleInterval].bind(this)
     }
   },
   methods: {
-    openLogForm(event) {
+    openLogForm(hour) {
+      console.log({ this: this, hour })
       // `event` is the native DOM event
-      if (event) {
-        console.log(event.target.innerHTML)
-        this.hour = event.target.innerHTML
+      if (hour) {
+        this.hour = hour
         this.dialog = true
       }
     },
