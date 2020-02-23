@@ -1,9 +1,9 @@
 <template>
   <div>
     <p v-if="logs === null" class="infos-label">Loading...</p>
-    <p v-if="logs && !logs.length" class="infos-label">
+    <!-- <p v-if="logs && !logs.length" class="infos-label">
       You don't have any log yet
-    </p>
+    </p> -->
     <p><DateSelector :getdate="getdate" :setdate="setdate" /></p>
     <DayCalendar
       :inputs="inputs"
@@ -25,7 +25,10 @@
           <v-spacer></v-spacer>
           <Form
             :inputs="inputs"
-            :data="{ Start: hour, End: hour + 1 }"
+            :data="{
+              Start: hour && hour.format('hh A'),
+              End: hour && hour.add(1, 'hour').format('hh A')
+            }"
             :item="logToCreate"
             :update="update"
             :pending="logCreationPending"
@@ -39,10 +42,11 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex'
+import dayjs from 'dayjs'
 import Form from '@/ui/Form/Form.ui'
 import DayCalendar from '@/ui/Calendar/Calendar.ui'
 import DateSelector from '@/ui/DateSelector/DateSelector.ui'
-import { mapState, mapMutations, mapActions } from 'vuex'
 
 import store from '@/store'
 
@@ -57,6 +61,8 @@ export default {
         { name: 'Note', style: { flex: '1 100%', height: '50px' } }
       ],
       dialog: false,
+      date: this.$route.params.date,
+      selectedDateTime: null,
       hour: ''
     }
   },
@@ -68,7 +74,7 @@ export default {
     ...mapState('app', ['networkOnLine'])
   },
   mounted() {
-    store.dispatch(`logs/getLogsByDateNUser`, this.$route.params.date)
+    store.dispatch(`logs/getLogsByDateNUser`, this.date)
   },
   methods: {
     getdate() {
@@ -79,11 +85,17 @@ export default {
     },
     slotclick(hour) {
       // `event` is the native DOM event
+      const slotClickHour = dayjs(`${this.date} ${hour}`)
       if (hour) {
-        this.hour = hour
+        this.selectedDateTime = slotClickHour.unix()
+        this.hour = slotClickHour
         this.dialog = true
       }
-      console.log({ this: this, dialog: this.dialog })
+      console.log({
+        slotClickHour,
+        hour: this.hour,
+        selectedDateTime: this.selectedDateTime
+      })
     },
     submit() {
       this.triggerAddLogAction()

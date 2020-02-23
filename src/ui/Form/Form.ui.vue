@@ -7,7 +7,7 @@
       class="input"
       :name="input.name"
       type="text"
-      :value="item ? item[input.name] : data ? data[input.name] : null"
+      :value="item[input.name] || data ? data[input.name] : null"
       :style="createStyle(input.style)"
       @input="
         update({
@@ -34,15 +34,19 @@
         class="create-btn"
         @click="cancel(item)"
       >
-        Clear
+        Cancel
       </v-btn>
     </div>
   </div>
 </template>
 
 <script>
+/**
+ * Form UI Element
+ */
 export default {
   props: {
+    // takes inputs as an array
     inputs: {
       type: Array,
       default() {
