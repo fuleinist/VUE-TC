@@ -80,7 +80,9 @@ describe('products module action', () => {
   describe('triggerAddProductAction', () => {
     describe('when the name of the product is empty', () => {
       const state = {
-        productNameToCreate: ''
+        productNameToCreate: '',
+        productCategoryToCreate: '',
+        productCountToCreate: 0
       }
 
       it('should not set input name to empty', () => {
@@ -96,7 +98,8 @@ describe('products module action', () => {
 
     describe('when the name of the product is not empty', () => {
       const state = {
-        productNameToCreate: 'todo'
+        productNameToCreate: 'todo',
+        productCategoryToCreate: 'test'
       }
 
       it('should set input name to empty', () => {

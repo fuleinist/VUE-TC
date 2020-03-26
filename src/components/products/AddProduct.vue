@@ -2,11 +2,24 @@
   <div class="product-action-bar">
     <input
       placeholder="product name..."
-      class="product-name-input"
+      class="product-input"
       type="text"
       :value="productNameToCreate"
       @input="setProductNameToCreate($event.target.value)"
-      @keypress.enter="triggerAddProductAction"
+    />
+    <input
+      placeholder="product catalog..."
+      class="product-input"
+      type="text"
+      :value="productCategoryToCreate"
+      @input="setProductCategoryToCreate($event.target.value)"
+    />
+    <input
+      placeholder="product count..."
+      class="product-input"
+      type="number"
+      :value="productCountToCreate"
+      @input="setProductCountToCreate($event.target.value)"
     />
     <div
       :class="{ disabled: productCreationPending }"
@@ -24,10 +37,14 @@ import { mapMutations, mapState, mapActions } from 'vuex'
 export default {
   computed: mapState('products', [
     'productNameToCreate',
+    'productCategoryToCreate',
+    'productCountToCreate',
     'productCreationPending'
   ]),
   methods: {
     ...mapMutations('products', ['setProductNameToCreate']),
+    ...mapMutations('products', ['setProductCategoryToCreate']),
+    ...mapMutations('products', ['setProductCountToCreate']),
     ...mapActions('products', ['triggerAddProductAction'])
   }
 }
@@ -41,7 +58,7 @@ export default {
   align-items: center;
   justify-content: center;
 
-  .product-name-input {
+  .product-input {
     padding-left: 5px;
     height: 30px;
     width: 150px;

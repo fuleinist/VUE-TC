@@ -29,8 +29,14 @@ export default {
   triggerAddProductAction: ({ dispatch, state, commit }) => {
     if (state.productNameToCreate === '') return
 
-    const product = { name: state.productNameToCreate }
+    const product = {
+      name: state.productNameToCreate,
+      category: state.productCategoryToCreate,
+      count: state.productCountToCreate
+    }
     commit('setProductNameToCreate', '')
+    commit('setProductCategoryToCreate', '')
+    commit('setProductCountToCreate', 0)
     dispatch('createUserProduct', product)
   },
 

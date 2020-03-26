@@ -9,12 +9,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ProductDetail from '@/components/ProductDetail'
+import ProductDetail from '@/components/products/ProductDetail'
 
 export default {
   components: { ProductDetail },
   props: {
-    id: String
+    id: String,
+    name: String,
+    category: String
   },
   computed: {
     ...mapGetters('products', ['getProductById']),

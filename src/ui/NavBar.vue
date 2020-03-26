@@ -10,8 +10,15 @@
         <div class="nav-item">
           <router-link to="/products">Products</router-link>
         </div>
-        <div v-if="!isUserLoggedIn && networkOnLine" class="nav-item">
-          <router-link to="/login">Login</router-link>
+        <div class="nav-item">
+          <router-link to="/jobs">Jobs</router-link>
+        </div>
+        <div class="nav-item">
+          <router-link
+            :to="{ name: 'logsadd', params: { date: '2020-01-15' } }"
+          >
+            Logs
+          </router-link>
         </div>
         <div
           v-if="isUserLoggedIn && networkOnLine"

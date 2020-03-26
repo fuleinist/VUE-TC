@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import App from './App.vue'
 import router from './router'
@@ -9,12 +10,14 @@ import '@/firebase/init'
 import '@/firebase/authentication'
 import '@/misc/handle-apple-install-prompt'
 import 'pwacompat'
+import vuetify from '@/plugins/vuetify'
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
 

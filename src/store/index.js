@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import authentication from './authentication'
 import app from './app'
 import products from './products'
+import jobs from './jobs'
+import logs from './logs'
 
 Vue.use(Vuex)
 
@@ -13,6 +15,8 @@ export default new Vuex.Store({
   modules: {
     authentication,
     app,
-    products
+    products,
+    jobs,
+    logs
   }
 })

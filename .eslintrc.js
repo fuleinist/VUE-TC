@@ -13,6 +13,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'func-names': 'off',
     'vue/require-default-prop': 'off',
     'import/no-unresolved': 'off',
     'no-param-reassign': 'off',

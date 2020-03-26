@@ -2,7 +2,13 @@ export default {
   /* Product input name */
   setProductNameToCreate: (state, productNameToCreate) =>
     (state.productNameToCreate = productNameToCreate),
+  /* Product input category */
+  setProductCategoryToCreate: (state, productCategoryToCreate) =>
+    (state.productCategoryToCreate = productCategoryToCreate),
 
+  /* Product input category */
+  setProductCountToCreate: (state, productCountToCreate) =>
+    (state.productCountToCreate = productCountToCreate),
   /* Products */
   setProducts: (state, products) => (state.products = products),
   addProduct: (state, product) => state.products.push(product),
