@@ -78,6 +78,13 @@ const router = new Router({
         import(/* webpackChunkName: "client-chunk-job-details" */ '@/views/jobs/Job.vue')
     },
     {
+      path: '/job/update/:id',
+      name: 'jobupdate',
+      props: true,
+      component: () =>
+        import(/* webpackChunkName: "client-chunk-job-details" */ '@/views/jobs/UpdateJob.vue')
+    },
+    {
       path: '/logs/:date',
       name: 'logsadd',
       props: true,

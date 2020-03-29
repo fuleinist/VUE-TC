@@ -8,6 +8,13 @@
     </router-link>
     <div
       v-if="!disableActions"
+      class="update-btn"
+      @click="goJobUpdate(data.id)"
+    >
+      {{ 'update' }}
+    </div>
+    <div
+      v-if="!disableActions"
       class="delete-btn"
       @click="$emit('deleteJob', data.id)"
     >
@@ -23,6 +30,12 @@ export default {
     index: Number,
     isJobDeletionPending: Boolean,
     disableActions: Boolean
+  },
+  methods: {
+    goJobUpdate(id) {
+      const redirectUrl = `/job/update/${id}`
+      this.$router.push(redirectUrl)
+    }
   }
 }
 </script>
@@ -38,6 +51,17 @@ export default {
 
   .job-link {
     color: $vue-color;
+  }
+
+  .update-btn {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid;
+    display: inline-block;
+    border-radius: 3px;
+    margin-left: 10px;
+    color: $vue-color;
+    border-color: $vue-color;
   }
 
   .delete-btn {

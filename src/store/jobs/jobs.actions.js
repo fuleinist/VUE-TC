@@ -47,6 +47,20 @@ export default {
   },
 
   /**
+   * Update a job for current loggedin user
+   */
+  updateJob: async ({ commit, rootState }, job) => {
+    const jobsDb = new JobsDB()
+
+    job.userId = rootState.authentication.user.id
+
+    commit('setJobUpdatePending', true)
+    const updatedJob = await jobsDb.update(job)
+    commit('updateJob', updatedJob)
+    commit('setJobUpdatePending', false)
+  },
+
+  /**
    * Create a new job for current loggedin user and reset job name input
    */
   triggerAddJobAction: ({ dispatch, state, commit }) => {
@@ -79,8 +93,18 @@ export default {
     //   actualCostMaterials: state.jobToCreate.actualCostMaterials,
     //   totalInvoiceAmount: state.jobToCreate.totalInvoiceAmount
     // }
-    commit('setJobToCreate', {})
     dispatch('createJob', job)
+    commit('clearJobToCreate')
+  },
+
+  /**
+   * Update a new job for current loggedin user and reset job name input
+   */
+  triggerUpdateJobAction: ({ dispatch, state, commit }) => {
+    if (state.jobNameToUpdate === '') return
+    const job = state.jobToUpdate
+    dispatch('updateJob', job)
+    commit('clearJobToUpdate')
   },
 
   /**
@@ -88,9 +112,7 @@ export default {
    */
   deleteUserjob: async ({ rootState, commit, getters }, jobId) => {
     if (getters.isjobDeletionPending(jobId)) return
-
     const jobsDb = new JobsDB(rootState.authentication.user.id)
-
     commit('addjobDeletionPending', jobId)
     await jobsDb.delete(jobId)
     commit('removejobById', jobId)
