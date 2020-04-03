@@ -42,6 +42,7 @@ export default {
 
     commit('setJobCreationPending', true)
     const createdJob = await jobsDb.create(job)
+    console.log({ createdJob, job })
     commit('addJob', createdJob)
     commit('setJobCreationPending', false)
   },
@@ -108,14 +109,14 @@ export default {
   },
 
   /**
-   * Delete a user job from its id
+   * Delete a job from its id
    */
-  deleteUserjob: async ({ rootState, commit, getters }, jobId) => {
-    if (getters.isjobDeletionPending(jobId)) return
-    const jobsDb = new JobsDB(rootState.authentication.user.id)
-    commit('addjobDeletionPending', jobId)
+  deleteJob: async ({ commit, getters }, jobId) => {
+    if (getters.isJobDeletionPending(jobId)) return
+    const jobsDb = new JobsDB()
+    commit('addJobDeletionPending', jobId)
     await jobsDb.delete(jobId)
-    commit('removejobById', jobId)
-    commit('removejobDeletionPending', jobId)
+    commit('removeJobById', jobId)
+    commit('removeJobDeletionPending', jobId)
   }
 }

@@ -45,7 +45,7 @@
 import { mapState, mapMutations, mapActions } from 'vuex'
 import dayjs from 'dayjs'
 import Form from '@/ui/Form/Form.ui'
-import DayCalendar from '@/ui/Calendar/Calendar.ui'
+import DayCalendar from '@/ui/Calendar/DayCalendar.ui'
 import DateSelector from '@/ui/DateSelector/DateSelector.ui'
 
 import store from '@/store'

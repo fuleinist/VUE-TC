@@ -15,7 +15,7 @@
       :is-job-deletion-pending="isJobDeletionPending(job.id)"
       :disable-actions="!networkOnLine"
       :data="job"
-      @deleteProduct="deleteJob"
+      @deleteJob="deleteJob"
     ></job-item>
   </div>
 </template>

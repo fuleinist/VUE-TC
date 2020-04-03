@@ -17,17 +17,17 @@
       :data="log"
       @deleteProduct="deleteLog"
     ></log-item>
-    <DayCalendar />
+    <WeekCalendar />
   </div>
 </template>
 
 <script>
 import LogItem from '@/components/logs/LogItem'
-import DayCalendar from '@/ui/Calendar/Calendar.ui'
+import WeekCalendar from '@/ui/Calendar/WeekCalendar.ui'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
-  components: { LogItem, DayCalendar },
+  components: { LogItem, WeekCalendar },
   computed: {
     ...mapGetters('logs', ['isLogDeletionPending']),
     ...mapState('logs', ['logs']),

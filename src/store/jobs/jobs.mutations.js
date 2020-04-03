@@ -26,7 +26,7 @@ export default {
   /* Job update */
   initJobToUpdate: (state, job) => {
     console.log({ state, job })
-    return job !== undefined ? (state.jobToUpdate = job) : state
+    return job ? (state.jobToUpdate = job) : state
   },
   setJobToUpdate: (state, { label, value }) => {
     return label && value ? (state.jobToUpdate[label] = value) : state

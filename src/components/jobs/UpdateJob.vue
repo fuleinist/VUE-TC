@@ -14,6 +14,7 @@
           label: $event.target.name,
           value: $event.target.value
         })
+        test()
       "
     />
     <div class="job-buttons">
@@ -101,7 +102,6 @@ export default {
     ...mapGetters('jobs', ['getJobById'])
   },
   created() {
-    console.log(this.getJobById(this.$route.params.id))
     this.initJobToUpdate(this.getJobById(this.$route.params.id))
   },
   methods: {
@@ -110,7 +110,10 @@ export default {
       'clearJobToUpdate',
       'initJobToUpdate'
     ]),
-    ...mapActions('jobs', ['triggerUpdateJobAction'])
+    ...mapActions('jobs', ['triggerUpdateJobAction']),
+    test() {
+      console.log(this.jobToUpdate)
+    }
   }
 }
 </script>
