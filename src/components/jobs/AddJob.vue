@@ -21,7 +21,7 @@
       <div
         :class="{ disabled: jobCreationPending }"
         class="create-job-btn"
-        @click="triggerAddJobAction"
+        @click="addJobAction"
       >
         Add Job
       </div>
@@ -38,6 +38,7 @@
 
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex'
+import delay from 'delay'
 
 export default {
   data() {
@@ -70,36 +71,23 @@ export default {
         { name: 'TotalInvoiceAmount' }
       ],
       createStyle: style => style
-      //   {
-      //   firstname: state.jobToCreate.FirstName,
-      //   surname: state.jobToCreate.SurName,
-      //   phone: state.jobToCreate.Phone,
-      //   email: state.jobToCreate.Email,
-      //   builderName: state.jobToCreate.BuilderName,
-      //   builderEmail: state.jobToCreate.BuilderEmail,
-      //   builderPhone: state.jobToCreate.BuilderPhone,
-      //   projectDetails: state.jobToCreate.projectDetails,
-      //   projectAddress: state.jobToCreate.projectAddress,
-      //   projectSuburb: state.jobToCreate.projectSuburb,
-      //   projectPostcode: state.jobToCreate.projectPostcode,
-      //   notes: state.jobToCreate.nodes,
-      //   quotedAmount: state.jobToCreate.quotedAmount,
-      //   quotedRequestDate: state.jobToCreate.quotedRequestDate,
-      //   quotedSubmissionDate: state.jobToCreate.quotedSubmissionDate,
-      //   refferedBy: state.jobToCreate.refferedBy,
-      //   budgetedMaterialCost: state.jobToCreate.budgetedMaterialCost,
-      //   budgetedFactoryHours: state.jobToCreate.budgetedFactoryHours,
-      //   budgetedSiteHours: state.jobToCreate.budgetedSiteHours,
-      //   budgetedotherHours: state.jobToCreate.budgetedotherHours,
-      //   totalBudgetedCost: state.jobToCreate.totalBudgetedCost,
-      //   actualCostMaterials: state.jobToCreate.actualCostMaterials,
-      //   totalInvoiceAmount: state.jobToCreate.totalInvoiceAmount
     }
   },
   computed: mapState('jobs', ['jobToCreate', 'jobCreationPending']),
   methods: {
     ...mapMutations('jobs', ['setJobToCreate', 'clearJobToCreate']),
-    ...mapActions('jobs', ['triggerAddJobAction'])
+    ...mapActions('jobs', ['triggerAddJobAction']),
+    async addJobAction() {
+      this.triggerAddJobAction()
+      this.$notify({
+        group: 'jobs',
+        type: 'success',
+        title: 'Job Added',
+        text: 'A New Job is Added'
+      })
+      await delay(1000)
+      this.$router.push('/jobs')
+    }
   }
 }
 </script>

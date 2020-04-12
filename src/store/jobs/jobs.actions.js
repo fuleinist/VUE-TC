@@ -42,7 +42,6 @@ export default {
 
     commit('setJobCreationPending', true)
     const createdJob = await jobsDb.create(job)
-    console.log({ createdJob, job })
     commit('addJob', createdJob)
     commit('setJobCreationPending', false)
   },
@@ -67,33 +66,6 @@ export default {
   triggerAddJobAction: ({ dispatch, state, commit }) => {
     if (state.jobNameToCreate === '') return
     const job = state.jobToCreate
-    // {
-    //   name: state.jobToCreate.Name,
-    //   category: state.jobToCreate.Category,
-    //   firstname: state.jobToCreate.FirstName,
-    //   surname: state.jobToCreate.SurName,
-    //   phone: state.jobToCreate.Phone,
-    //   email: state.jobToCreate.Email,
-    //   builderName: state.jobToCreate.BuilderName,
-    //   builderEmail: state.jobToCreate.BuilderEmail,
-    //   builderPhone: state.jobToCreate.BuilderPhone,
-    //   projectDetails: state.jobToCreate.projectDetails,
-    //   projectAddress: state.jobToCreate.projectAddress,
-    //   projectSuburb: state.jobToCreate.projectSuburb,
-    //   projectPostcode: state.jobToCreate.projectPostcode,
-    //   notes: state.jobToCreate.nodes,
-    //   quotedAmount: state.jobToCreate.quotedAmount,
-    //   quotedRequestDate: state.jobToCreate.quotedRequestDate,
-    //   quotedSubmissionDate: state.jobToCreate.quotedSubmissionDate,
-    //   refferedBy: state.jobToCreate.refferedBy,
-    //   budgetedMaterialCost: state.jobToCreate.budgetedMaterialCost,
-    //   budgetedFactoryHours: state.jobToCreate.budgetedFactoryHours,
-    //   budgetedSiteHours: state.jobToCreate.budgetedSiteHours,
-    //   budgetedotherHours: state.jobToCreatebudgetedotherHours,
-    //   totalBudgetedCost: state.jobToCreate.totalBudgetedCost,
-    //   actualCostMaterials: state.jobToCreate.actualCostMaterials,
-    //   totalInvoiceAmount: state.jobToCreate.totalInvoiceAmount
-    // }
     dispatch('createJob', job)
     commit('clearJobToCreate')
   },

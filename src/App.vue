@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <div id="app">
+      <notifications group="jobs" />
       <nav-bar></nav-bar>
       <div class="main-wrapper">
         <router-view />
@@ -28,7 +29,11 @@ import NewContentAvailableToastr from '@/components/NewContentAvailableToastr'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
-  components: { NavBar, NewContentAvailableToastr, AppleAddToHomeScreenModal },
+  components: {
+    NavBar,
+    NewContentAvailableToastr,
+    AppleAddToHomeScreenModal
+  },
   computed: {
     ...mapGetters('app', ['newContentAvailable']),
     ...mapState('app', ['showAddToHomeScreenModalForApple', 'refreshingApp'])

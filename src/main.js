@@ -11,8 +11,12 @@ import '@/firebase/authentication'
 import '@/misc/handle-apple-install-prompt'
 import 'pwacompat'
 import vuetify from '@/plugins/vuetify'
+import notification from '@/plugins/notification'
 
 Vue.config.productionTip = false
+
+// adding plugins
+Vue.use(notification)
 
 new Vue({
   router,
